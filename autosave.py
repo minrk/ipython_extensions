@@ -39,7 +39,7 @@ IPython.autosave_extension_schedule();
 class AutoSaveMagics(Magics):
     
     interval = 60
-    enabled = True
+    enabled = False
     
     @staticmethod
     def autosave_js(interval):
@@ -92,6 +92,5 @@ def load_ipython_extension(ip):
     if not _loaded:
         ip.register_magics(AutoSaveMagics)
         _loaded = True
-    # start initial autosave
-    AutoSaveMagics.autosave_js(AutoSaveMagics.interval)
-            
+    print ("Usage: %autosave [seconds]")
+
