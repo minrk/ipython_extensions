@@ -1,10 +1,14 @@
-# Autosave for IPython Notebook
+# Miscellaneous IPython extensions
 
-## Extension for managing periodic autosave of IPython notebooks
+You can install each extension individually, or you can just clone the whole repo into your `.ipython/extensions` dir.
+
+## Autosave
+
+An Extension for managing periodic autosave of IPython notebooks
 
 install the extension:
 
-    %install_ext https://raw.github.com/minrk/autosave_ipython/master/autosave.py
+    %install_ext https://raw.github.com/minrk/ipython_extensions/master/autosave.py
 
 load the extension:
 
@@ -18,7 +22,21 @@ disable autosave:
 
     %autosave 0
 
-trigger save from Python:
+trigger single save from Python (just like clicking the save button):
 
     %savenb
 
+## Retina Figures
+
+Enable 2x display of matplotlib figures
+
+install the extension:
+
+    %install_ext https://raw.github.com/minrk/ipython_extensions/master/retina.py
+
+load the extension:
+
+    %load_ext retina
+
+
+    
