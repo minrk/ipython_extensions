@@ -19,20 +19,24 @@ from IPython.core.magic import magics_class, line_magic, Magics
 from IPython.display import Javascript, display
 
 _autosave_js_t = """
-IPython.autosave_extension_interval = %i;
 
-IPython.autosave_extension_schedule = function() {
-    var interval = IPython.autosave_extension_interval;
-    console.log(interval);
-    if (interval) {
+// clear previous interval, if there was one
+if (IPython.autosave_extension_interval) {{
+    clearInterval(IPython.autosave_extension_interval);
+    IPython.autosave_extension_interval = null;
+}}
+
+// set new interval
+if ({0}) {{
+    console.log("scheduling autosave every {0} ms");
+    IPython.notebook.save_notebook();
+    IPython.autosave_extension_interval = setInterval(function() {{
+        console.log("autosave");
         IPython.notebook.save_notebook();
-        setTimeout(IPython.autosave_extension_schedule, interval);
-    } else {
-        console.log("autosave disabled");
-    }
-};
-
-IPython.autosave_extension_schedule();
+    }}, {0});
+}} else {{
+    console.log("canceling autosave");
+}}
 """
 
 @magics_class
@@ -47,7 +51,7 @@ class AutoSaveMagics(Magics):
             print("autosaving every %is" % interval)
         else:
             print("autosave disabled")
-        display(Javascript(_autosave_js_t % (1000 * interval)))
+        display(Javascript(_autosave_js_t.format(1000 * interval)))
     
     @line_magic
     def autosave(self, line):
