@@ -8,11 +8,6 @@ import struct
 from base64 import encodestring
 from io import BytesIO
 
-import matplotlib
-from matplotlib.figure import Figure
-
-from IPython.core.pylabtools import print_figure
-
 def pngxy(data):
     """read the width/height from a PNG header"""
     ihdr = data.index(b'IHDR')
@@ -22,6 +17,7 @@ def pngxy(data):
 
 def print_figure(fig, fmt='png', dpi=None):
     """Convert a figure to svg or png for inline display."""
+    import matplotlib
     fc = fig.get_facecolor()
     ec = fig.get_edgecolor()
     bytes_io = BytesIO()
@@ -35,6 +31,7 @@ def print_figure(fig, fmt='png', dpi=None):
 
 def png2x(fig):
     """render figure to 2x PNG via HTML"""
+    import matplotlib
     if not fig.axes and not fig.lines:
         return
     # double DPI
@@ -48,6 +45,8 @@ def png2x(fig):
 
 def enable_retina(ip):
     """enable retina figures"""
+    from matplotlib.figure import Figure
+
     
     # unregister existing formatter(s):
     png_formatter = ip.display_formatter.formatters['image/png']
@@ -57,7 +56,7 @@ def enable_retina(ip):
     
     # register png2x as HTML formatter
     html_formatter = ip.display_formatter.formatters['text/html']
-    html_formatter.for_type(matplotlib.figure.Figure, png2x)
+    html_formatter.for_type(Figure, png2x)
     
 
 # load the extension:
@@ -66,7 +65,10 @@ loaded = False
 def load_ipython_extension(ip):
     global loaded
     if loaded:
-        # avoid
         return
     loaded = True
-    enable_retina(ip)
+    try:
+        enable_retina(ip)
+    except Exception as e:
+        print "Failed to load retina extension: %s" % e
+
