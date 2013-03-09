@@ -39,7 +39,7 @@ IPython.ext_gist_notebook = function () {
     if (gist_id) {
         cmd = cmd + ' -u ' + gist_id;
     }
-    cmd = cmd + ' $_nbname';
+    cmd = cmd + ' "$_nbname"';
     cmd = cmd + '\nprint lines[0].replace("https://gist.github.com", "").replace("/","")';
     IPython.notebook.kernel.execute(cmd, {'output' : IPython.ext_handle_gist_output});
 };
