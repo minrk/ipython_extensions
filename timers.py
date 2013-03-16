@@ -93,9 +93,9 @@ class TimerMagics(Magics):
     
     @staticmethod
     def format_time(dt):
-        if dt < 1e-5:
+        if dt < 1e-6:
             return u"%.3g ns" % (dt * 1e9)
-        elif dt < 1e-2:
+        elif dt < 1e-3:
             return u"%.3g µs" % (dt * 1e6)
         elif dt < 1:
             return u"%.3g ms" % (dt * 1e3)
