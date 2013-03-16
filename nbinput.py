@@ -6,8 +6,10 @@ but it should suffice in a few situations while we implement the real thing.
 
 """
 
+from IPython import display, Javascript
+
 def nbgetpass(prompt="Enter Password", name='passwd'):
-    display_javascript(Javascript("""
+    display(Javascript("""
 var dialog = $('<div/>').append(
     $('<input/>')
     .attr('id', 'password')
@@ -35,10 +37,10 @@ dialog.dialog({
         }
     }
 });
-""" % (prompt, name)))
+""" % (prompt, name)), include=['application/javascript'])
                                   
 def nb_raw_input(prompt, name="raw_input_reply"):
-    display_javascript(Javascript("""
+    display(Javascript("""
 var dialog = $('<div/>').append(
     $('<input/>')
     .attr('id', 'theinput')
@@ -64,7 +66,7 @@ dialog.dialog({
         }
     }
 });
-""" % (prompt, name)))
+""" % (prompt, name)), include=['application/javascript'])
 
 def load_ipython_extension(ip):
     ip.user_ns['nb_raw_input'] = nb_raw_input
