@@ -57,18 +57,20 @@ def enable_retina(ip):
     # register png2x as HTML formatter
     html_formatter = ip.display_formatter.formatters['text/html']
     html_formatter.for_type(Figure, png2x)
-    
 
-# load the extension:
-loaded = False
+def disable_retina(ip):
+    from matplotlib.figure import Figure
+    from IPython.core.pylabtools import select_figure_format
+    select_figure_format(ip, 'png')
+    html_formatter = ip.display_formatter.formatters['text/html']
+    html_formatter.type_printers.pop(Figure, None)
 
 def load_ipython_extension(ip):
-    global loaded
-    if loaded:
-        return
-    loaded = True
     try:
         enable_retina(ip)
     except Exception as e:
         print "Failed to load retina extension: %s" % e
+
+def unload_ipython_extension(ip):
+    disable_retina(ip)
 
