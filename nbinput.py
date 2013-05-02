@@ -1,12 +1,14 @@
 """
 
+THIS MODULE IS OBSOLETE WITH IPYTHON 1.0, which supports raw_input
+
 Simple getpass / raw_input workarounds for the IPython notebook using jQueryUI dialogs.
 Not awesome, because they don't *return* the response, they store them in a variable,
 but it should suffice in a few situations while we implement the real thing.
 
 """
 
-from IPython import display, Javascript
+from IPython.display import display, Javascript
 
 def nbgetpass(prompt="Enter Password", name='passwd'):
     display(Javascript("""
