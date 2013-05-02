@@ -1,5 +1,7 @@
 """Extension for managing periodic autosave of IPython notebooks
 
+THIS EXTENSION IS OBSOLETE, IPYTHON 1.0 SUPPORTS AUTOSAVE
+
 Usage:
 
 %load_ext autosave
@@ -88,13 +90,11 @@ class AutoSaveMagics(Magics):
         """
         display(Javascript("IPython.notebook.save_notebook();"))
 
-_loaded = False
-
 def load_ipython_extension(ip):
     """Load the extension in IPython."""
-    global _loaded
-    if not _loaded:
-        ip.register_magics(AutoSaveMagics)
-        _loaded = True
+    if "autosave" in ip.magics_manager.magics['line']:
+        print ("IPython 1.0 has autosave, this extension is obsolete")
+        return
+    ip.register_magics(AutoSaveMagics)
     print ("Usage: %autosave [seconds]")
 

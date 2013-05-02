@@ -1,6 +1,8 @@
 """
 Use TextMate as the editor
 
+THIS EXTENSION IS OBSOLETE
+
 Usage:  %load_ext editmate
 
 Now when you %edit something, it opens in textmate.
@@ -23,6 +25,13 @@ def edit_in_textmate(self, filename, linenum=None, wait=True):
     proc = Popen(list2cmdline(cmd), shell=True)
     if wait and proc.wait() != 0:
         raise TryNext()
-    
+
 def load_ipython_extension(ip):
-    ip.set_hook('editor', edit_in_textmate)
+    try:
+        from IPython.lib.editorhooks import mate
+    except ImportError:
+        ip.set_hook('editor', edit_in_textmate)
+    else:
+        mate()
+        print("The editmate extension is obsolete, use:")
+        print("  from IPython.lib.editorhooks import mate\n  mate()")

@@ -71,5 +71,9 @@ dialog.dialog({
 """ % (prompt, name)), include=['application/javascript'])
 
 def load_ipython_extension(ip):
+    import IPython
+    if int(IPython.__version__.split()[0]) >= 1:
+        print ("IPython notebook 1.0 supports plain raw_input, this extension is obsolete")
+    
     ip.user_ns['nb_raw_input'] = nb_raw_input
     ip.user_ns['nbgetpass'] = nbgetpass
