@@ -1,0 +1,42 @@
+<!-- extracted from https://gist.github.com/magican/5574556 -->
+<div id="toc-wrapper">
+    <div class="header">Contents <a href="#" class="hide-btn">[hide]</a></div>
+    <div id="toc"></div>
+</div>
+ 
+<style>
+  #toc-wrapper {
+    position: fixed; top: 113px; max-width:320px; right: 28px;
+    border: thin solid rgba(0, 0, 0, 0.38); opacity: .8;
+    border-radius: 5px; background-color: #fff; padding:10px;
+  }
+  #toc-wrapper.closed {
+      min-width: 100px;
+      width: auto;
+      transition: width;
+  }
+  #toc-wrapper:hover{
+      opacity:1;
+  }
+  #toc-wrapper .header {
+      font-size:18px; font-weight: bold;
+  }
+  #toc-wrapper .hide-btn {
+      font-size: 14px;
+  }
+ 
+</style>
+
+<style>
+  ol.nested {
+    counter-reset: item;
+    list-style: none;
+  }
+  li.nested {
+        display: block;
+    }
+  li.nested:before {
+        counter-increment: item;
+        content: counters(item, ".")" ";
+    }
+</style>
