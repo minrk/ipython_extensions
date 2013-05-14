@@ -81,7 +81,7 @@ class TimerMagics(Magics):
         msg = "%8s" % ts
         if label:
             msg = "%s: %s" % (label, msg)
-        print '%s%s' % ('  ' * len(self.tics), msg)
+        print ('%s%s' % ('  ' * len(self.tics), msg))
     
     @staticmethod
     def time():
