@@ -38,5 +38,21 @@ load the extension:
 
     %load_ext retina
 
+## Table of Contents 
+
+Automatically generates floating table of contents inside your ipnb from the headers.
+Autoresize and scroll capabilities.
+
+install the extension:
+
+    %install_ext https://raw.github.com/minrk/ipython_extensions/master/nbtoc.py
+
+load the extension:
+
+    %load_ext nbtoc
+    %nbtoc
+
+run `%nbtoc` once more to refresh the Table-of-contents
+
 
     
