@@ -19,7 +19,6 @@ function table_of_contents(){
   var ol = $("<ol/>").addClass("nested");
   $("#toc").empty().append(ol);
   
-
   $.each(headers, function(i, h) {
     console.log(i, h);
     ol.append(
@@ -46,6 +45,14 @@ function table_of_contents(){
     }
     return false;
   })
+
+  $(window).resize(function(){
+    $('#toc').css({maxHeight: $(window).height() - 200})
+  })
+
+  $(window).trigger('resize')
 }
 
 table_of_contents();
+
+
