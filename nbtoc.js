@@ -1,6 +1,6 @@
 // adapted from https://gist.github.com/magican/5574556
 
-function clone_anchor(h){
+function clone_anchor(h) {
   // clone link
   var a = $(h).find('a').clone();
   a.attr('href', '#' + a.attr('id'));
@@ -8,32 +8,50 @@ function clone_anchor(h){
   return a;
 }
 
-function lvl(header){
-  if (header !== undefined)
-  return $(header).prop('tagName').toLowerCase().substring(1);
-  else return 0;
+function ol_depth(element) {
+  // get depth of nested ol
+  var d = 0;
+  while (element.prop("tagName").toLowerCase() == 'ol') {
+    d += 1;
+    element = element.parent();
+  }
+  return d;
 }
 
-function table_of_contents(){
-  var headers = $('h1, h2, h3, h4');
+function table_of_contents(threshold) {
+  if (threshold === undefined) {
+    threshold = 4;
+  }
+  var cells = IPython.notebook.get_cells();
+  
   var ol = $("<ol/>").addClass("nested");
   $("#toc").empty().append(ol);
   
-  $.each(headers, function(i, h) {
-    console.log(i, h);
-    ol.append(
-      $("<li/>").addClass("nested").append(clone_anchor(h))
-    );
+  for (var i=0; i < cells.length; i++) {
+    var cell = cells[i];
     
-    if ( lvl(h) < lvl(headers[i+1]) ) {
+    if (cell.cell_type !== 'heading') continue;
+    
+    var level = cell.level;
+    if (level > threshold) continue;
+    
+    var depth = ol_depth(ol);
+
+    // walk down levels
+    for (; depth < level; depth++) {
       var new_ol = $("<ol/>").addClass("nested");
       ol.append(new_ol);
       ol = new_ol;
-    } else if ( lvl(h) > lvl(headers[i+1]) ) {
-      ol = $("<ol/>").addClass("nested");
-      $("#toc").append(ol);
     }
-  });
+    // walk up levels
+    for (; depth > level; depth--) {
+      ol = ol.parent();
+    }
+    //
+    ol.append(
+      $("<li/>").addClass("nested").append(clone_anchor(cell.element))
+    );
+  }
 
   $('#toc-wrapper .header').click(function(){
     $('#toc').slideToggle();
