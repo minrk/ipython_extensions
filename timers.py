@@ -25,6 +25,7 @@ import sys
 import time
 
 from IPython.core.magic import magics_class, line_magic, cell_magic, Magics
+from IPython.core.magics.execution import _format_time
 
 @magics_class
 class TimerMagics(Magics):
@@ -77,7 +78,7 @@ class TimerMagics(Magics):
         self.print_time(now - tic, label)
     
     def print_time(self, dt, label):
-        ts = self.format_time(dt)
+        ts = _format_time(dt)
         msg = "%8s" % ts
         if label:
             msg = "%s: %s" % (label, msg)
@@ -90,19 +91,6 @@ class TimerMagics(Magics):
             return time.clock()
         else:
             return time.time()
-    
-    @staticmethod
-    def format_time(dt):
-        if dt < 1e-6:
-            return u"%.3g ns" % (dt * 1e9)
-        elif dt < 1e-3:
-            return u"%.3g µs" % (dt * 1e6)
-        elif dt < 1:
-            return u"%.3g ms" % (dt * 1e3)
-        elif dt < 120:
-            return u"%.3g s" % dt
-        elif dt < 3600:
-            return time.strftime(u"%H:%M:%S", time.localtime(dt))
     
 def load_ipython_extension(ip):
     """Load the extension in IPython."""
