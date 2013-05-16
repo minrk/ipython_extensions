@@ -15,33 +15,33 @@ https://gist.github.com/magican/5574556
 
 import io
 import os
+import urllib2
 
 from IPython.display import display_html, display_javascript
 
 here = os.path.abspath(os.path.dirname(__file__))
 
-if not os.path.isfile(os.path.join(here, 'nbtoc.js')) or not os.path.isfile(os.path.join(here, 'nbtoc.js')):
-    import urllib2
-    def download(url, fout):
-        """ Saves the url file to fout filename """
-        filein  = urllib2.urlopen(url)
-        fileout = open(fout, "wb")
+def download_if_missing(fname):
+    dest = os.path.join(here, fname)
+    if os.path.exists(dest):
+        return
+    url = 'https://raw.github.com/minrk/ipython_extensions/master/' + fname
+    print("Downloading %s to %s" % (url, dest))
+    
+    filein  = urllib2.urlopen(url)
+    fileout = open(dest, "wb")
+    chunk = filein.read(1024)
+    while chunk:
+        fileout.write(chunk)
+        chunk = filein.read(1024)
+    filein.close()
+    fileout.close()
 
-        while True:
-            bytes = filein.read(1*1024) # 1*1024bytes
-            fileout.write(bytes)
-
-            if bytes == "": break
-
-        filein.close()
-        fileout.close()
-
-    download('https://raw.github.com/minrk/ipython_extensions/master/nbtoc.js', os.path.join(here, 'nbtoc.js'))
-    download('https://raw.github.com/minrk/ipython_extensions/master/nbtoc.html', os.path.join(here, 'nbtoc.html'))
-
+download_if_missing('nbtoc.js')
 with io.open(os.path.join(here, 'nbtoc.js')) as f:
     toc_js = f.read()
 
+download_if_missing('nbtoc.html')
 with io.open(os.path.join(here, 'nbtoc.html')) as f:
     toc_html = f.read()
 
