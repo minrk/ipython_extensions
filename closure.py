@@ -31,9 +31,9 @@ def forget(line, cell):
     changes to existing variables are not affected
     """
     ip = get_ipython()
-    before = set(ip.user_ns.keys())
+    before = set(ip.user_ns)
     ip.run_cell(cell)
-    after = set(ip.user_ns.keys())
+    after = set(ip.user_ns)
     for key in after.difference(before):
         ip.user_ns.pop(key)
 
