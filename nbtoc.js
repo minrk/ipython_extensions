@@ -1,11 +1,13 @@
 // adapted from https://gist.github.com/magican/5574556
 
-function clone_anchor(h) {
+function clone_anchor(element) {
   // clone link
-  var a = $(h).find('a').clone();
-  a.attr('href', '#' + a.attr('id'));
-  a.attr('id', '');
-  return a;
+  var h = element.find("div.text_cell_render").children().first();
+  var a = h.find('a').clone();
+  var new_a = $("<a>");
+  new_a.attr("href", a.attr("href"));
+  new_a.text(h[0].innerText);
+  return new_a;
 }
 
 function ol_depth(element) {
@@ -24,7 +26,7 @@ function table_of_contents(threshold) {
   }
   var cells = IPython.notebook.get_cells();
   
-  var ol = $("<ol/>").addClass("nested");
+  var ol = $("<ol/>");
   $("#toc").empty().append(ol);
   
   for (var i=0; i < cells.length; i++) {
@@ -39,7 +41,7 @@ function table_of_contents(threshold) {
 
     // walk down levels
     for (; depth < level; depth++) {
-      var new_ol = $("<ol/>").addClass("nested");
+      var new_ol = $("<ol/>");
       ol.append(new_ol);
       ol = new_ol;
     }
@@ -49,7 +51,7 @@ function table_of_contents(threshold) {
     }
     //
     ol.append(
-      $("<li/>").addClass("nested").append(clone_anchor(cell.element))
+      $("<li/>").append(clone_anchor(cell.element))
     );
   }
 
