@@ -76,13 +76,13 @@ setTimeout(function() {
 """
 
 
-from IPython.display import display, Javascript
+from IPython.display import display_javascript
 
 def gist(line=''):
-    display(Javascript("IPython.ext_gist_notebook()"))
+    display_javascript("IPython.ext_gist_notebook()", raw=True)
 
 def load_ipython_extension(ip):
-    display(Javascript(gist_js))
+    display_javascript(gist_js, raw=True)
     ip.magics_manager.register_function(gist)
     
     
