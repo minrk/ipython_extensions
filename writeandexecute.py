@@ -34,6 +34,48 @@ class WriteAndExecuteMagics(Magics):
     @cell_magic
     def writeandexecute(self, parameter_s='', cell=None):
         """Writes the content of the cell to a file and then executes the cell.
+        
+        Usage:
+          %%writeandexecute [-d] -i <indentifier> <filename>
+          code
+          code...
+        
+        Options:
+        -i <indentifier>: surround the code with a line containing the 
+        indentifier (needed to replace code)
+        
+        <filename>: the file where the code should be written to. Can be 
+        specified without a extension and can also include a directory 
+        (`dir/file`)
+
+        -d: Write some debugging output
+        Default: -- (no debugging output)
+        
+        This magic can be used to write the content of a cell to a .py 
+        file and afterwards execute the cell. This can be used as a 
+        replacement for the --script parameter to the notebook server.
+
+        Code is replaced on the next execution (using the needed identifier) 
+        and other code can be appended by using the same file name.
+
+        Examples
+        --------
+        %%writeandexecute -i <identifier> <filename>
+        print "Hello world"
+
+        This would create a file "filename.py" with the following content
+        ```
+        # -*- coding: utf-8 -*-
+
+
+        # -- ==import_time== --
+        print "Hello world"
+
+        # -- ==import_time== --
+        ```
+
+        Cell content is transformed, so %%magic commands are executed, but 
+        `get_ipython()` must be available.
         """
         
         opts,args = self.parse_options(parameter_s,'i:d')
