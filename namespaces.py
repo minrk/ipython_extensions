@@ -30,6 +30,11 @@ namespaces = {
         'datetime' : 'datetime',
     }
 }
+aliases = {
+    'mpl' : 'matplotlib',
+    'pd' : 'pandas',
+    'np' : 'numpy',
+}
 
 def import_ns(d):
     """turn a dict of import strings into a dict of objects"""
@@ -43,11 +48,13 @@ def load_namespace(names):
     
     Usage:
     
-        %namespace numpy pandas matplotlib
+        %namespace numpy pandas mpl
     """
     ip = get_ipython()
     user_ns = ip.user_ns
     for name in names.split():
+        if name in aliases:
+            name = aliases[name]
         d = namespaces[name]
         ns = import_ns(d)
         user_ns.update(ns)
