@@ -6,7 +6,10 @@ function clone_anchor(element) {
   var a = h.find('a').clone();
   var new_a = $("<a>");
   new_a.attr("href", a.attr("href"));
-  new_a.text(h[0].innerText);
+  // get the text *excluding* the link text, whatever it may be
+  var hclone = h.clone();
+  hclone.find('a').remove();
+  new_a.text(hclone.text());
   return new_a;
 }
 
