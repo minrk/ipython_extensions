@@ -4,7 +4,7 @@ and a %gist magic, as a Python extension.
 You can also get just the gist button without this extension by adding
 the contents of gist.js to static/js/custom.js in your profile.
 
-This code requires that you have the jist rubygem installed and properly configured.
+This code requires that you have the gist rubygem installed and properly configured.
 
 """
 
@@ -47,7 +47,7 @@ IPython.ext_handle_gist_output = function(output_type, content) {
 IPython.ext_gist_notebook = function () {
     var gist_id = IPython.notebook.metadata.gist_id || null;
     var cmd = '_nbname = "' + IPython.notebook.notebook_name + '.ipynb"';
-    cmd = cmd + '\nlines = !jist -p'
+    cmd = cmd + '\nlines = !gist'
     if (gist_id) {
         cmd = cmd + ' -u ' + gist_id;
     }
