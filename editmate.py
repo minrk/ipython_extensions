@@ -33,5 +33,3 @@ def load_ipython_extension(ip):
         ip.set_hook('editor', edit_in_textmate)
     else:
         mate()
-        print("The editmate extension is obsolete, use:")
-        print("  from IPython.lib.editorhooks import mate\n  mate()")
