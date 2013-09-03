@@ -2,13 +2,13 @@
 
 function clone_anchor(element) {
   // clone link
-  var h = element.find("div.text_cell_render").children().first();
+  var h = element.find("div.text_cell_render").find('h').first();
   var a = h.find('a').clone();
   var new_a = $("<a>");
   new_a.attr("href", a.attr("href"));
   // get the text *excluding* the link text, whatever it may be
   var hclone = h.clone();
-  hclone.find('a').remove();
+  hclone.children().remove();
   new_a.text(hclone.text());
   return new_a;
 }
