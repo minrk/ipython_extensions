@@ -2,7 +2,7 @@
 
 function clone_anchor(element) {
   // clone link
-  var h = element.find("div.text_cell_render").find('h').first();
+  var h = element.find("div.text_cell_render").find(':header').first();
   var a = h.find('a').clone();
   var new_a = $("<a>");
   new_a.attr("href", a.attr("href"));
