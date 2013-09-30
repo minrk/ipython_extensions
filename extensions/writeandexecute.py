@@ -96,7 +96,7 @@ class WriteAndExecuteMagics(Magics):
         
     def ensure_dir(self, f):
         d = os.path.dirname(f)
-        if not os.path.exists(d):
+        if d and not os.path.exists(d):
             os.makedirs(d)  
             
     def _save_to_file(self, path, identifier, content, debug=False):
