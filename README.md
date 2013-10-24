@@ -2,29 +2,14 @@
 
 You can install each extension individually, or you can just clone the whole repo into your `.ipython/extensions` dir.
 
-## Autosave
+## Gist
 
-An Extension for managing periodic autosave of IPython notebooks
+Add a gist button to the notebook toolbar:
 
-install the extension:
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/gist.py
+    %load_ext gist
 
-    %install_ext https://raw.github.com/minrk/ipython_extensions/master/autosave.py
-
-load the extension:
-
-    %load_ext autosave
-
-autosave every 30 seconds:
-
-    %autosave 30
-
-disable autosave:
-
-    %autosave 0
-
-trigger single save from Python (just like clicking the save button):
-
-    %savenb
+This one requires the [gist](https://github.com/defunkt/gist) rubygem.
 
 ## Retina Figures
 
@@ -32,7 +17,7 @@ Enable 2x display of matplotlib figures
 
 install the extension:
 
-    %install_ext https://raw.github.com/minrk/ipython_extensions/master/retina.py
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/retina.py
 
 load the extension:
 
@@ -45,7 +30,7 @@ Autoresize and scroll capabilities.
 
 install the extension:
 
-    %install_ext https://raw.github.com/minrk/ipython_extensions/master/nbtoc.py
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/nbtoc.py
 
 load the extension:
 

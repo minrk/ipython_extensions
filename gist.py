@@ -1,88 +1,95 @@
 """
-This is the gist share button,
-and a %gist magic, as a Python extension.
-You can also get just the gist button without this extension by adding
-the contents of gist.js to static/js/custom.js in your profile.
+This adds a 'share-as-gist' button to the IPython notebook toolbar.
 
-This code requires that you have the gist rubygem installed and properly configured.
+It relies on the `gist` ruby gem, which you can install with `gem install gist`
 
+Loading this Python extension will install its javascript counterparts,
+and load them into your custom.js.
 """
+from __future__ import print_function
 
-gist_js = r"""
+import os
+import urllib2
 
-/*
-Add the contents of this file to your custom.js
-for it to always be on.
-*/
-
-
-IPython.ext_update_gist_link = function(gist_id) {
-    
-    IPython.notebook.metadata.gist_id = gist_id;
-    var toolbar = IPython.toolbar.element;
-    var link = toolbar.find("a#nbviewer");
-    if ( ! link.length ) {
-        link = $('<a id="nbviewer" target="_blank"/>');
-        toolbar.append(
-            $('<span id="nbviewer_span"/>').append(link)
-        );
-    }
-    
-    link.attr("href", "http://nbviewer.ipython.org/" + gist_id);
-    link.text("http://nbviewer.ipython.org/" + gist_id);
-};
-
-IPython.ext_handle_gist_output = function(output_type, content) {
-    if (output_type != 'stream' || content['name'] != 'stdout') {
-        return;
-    }
-    var gist_id = jQuery.trim(content['data']);
-    if (! gist_id.match(/[A-Za-z0-9]+/g)) {
-        alert("Gist seems to have failed: " + gist_id);
-        return;
-    }
-    IPython.ext_update_gist_link(gist_id);
-};
-
-IPython.ext_gist_notebook = function () {
-    var gist_id = IPython.notebook.metadata.gist_id || null;
-    var cmd = '_nbname = "' + IPython.notebook.notebook_name + '.ipynb"';
-    cmd = cmd + '\nlines = !gist'
-    if (gist_id) {
-        cmd = cmd + ' -u ' + gist_id;
-    }
-    cmd = cmd + ' "$_nbname"';
-    cmd = cmd + '\nprint lines[0].replace("https://gist.github.com", "").replace("/","")';
-    IPython.notebook.kernel.execute(cmd, {'output' : IPython.ext_handle_gist_output});
-};
-
-setTimeout(function() {
-    if ($("#gist_notebook").length == 0) {
-        IPython.toolbar.add_buttons_group([
-            {
-                'label'   : 'Share Notebook as gist',
-                'icon'    : 'ui-icon-share',
-                'callback': IPython.ext_gist_notebook,
-                'id'      : 'gist_notebook'
-            },
-        ])
-    }
-
-    if (IPython.notebook.metadata.gist_id) {
-        IPython.ext_update_gist_link(IPython.notebook.metadata.gist_id);
-    }
-}, 1000);
-
-"""
-
+from subprocess import check_output
 
 from IPython.display import display_javascript
 
+load_js = """
+// load the gist extension
+
+require(["nbextensions/gist"], function (gist_extension) {
+    console.log('gist extension loaded');
+    gist_extension.load_extension();
+});
+"""
+
+def install_nbextension(ip):
+    """install the gist javascript extension, and load it in custom.js"""
+    
+    gist_js = os.path.join(ip.ipython_dir, 'nbextensions', 'gist.js')
+    url = "http://rawgithub.com/minrk/ipython_extensions/master/gist.js"
+    here = os.path.dirname(__file__)
+    if not os.path.exists(gist_js):
+        local_gist_js = os.path.join(here, 'gist.js')
+        if os.path.exists(local_gist_js):
+            print ("installing gist.js from %s" % local_gist_js)
+            gist_f = open(local_gist_js)
+        else:
+            print ("installing gist.js from %s" % url)
+            gist_f = urllib2.urlopen(url)
+        with open(gist_js, 'w') as f:
+            f.write(gist_f.read())
+        gist_f.close()
+    
+    custom_js = os.path.join(ip.profile_dir.location, 'static', 'custom', 'custom.js')
+    already_required = False
+    if os.path.exists(custom_js):
+        with open(custom_js, 'r') as f:
+            js = f.read()
+        already_required = "nbextensions/gist" in js
+    
+    if not already_required:
+        print("loading gist button into custom.js")
+        with open(custom_js, 'a') as f:
+            f.write(load_js)
+        display_javascript(load_js, raw=True);
+
+class GistExtension(object):
+    def __init__(self, comm, msg=None):
+        self.comm = comm
+        self.comm.on_msg(self.handler)
+    
+    def handler(self, msg):
+        data = msg['content']['data']
+        name = data['name']
+        root = data['root']
+        path = data['path']
+        cmd = ['gist']
+        if data.get('gist_id'):
+            cmd.extend(['-u', data['gist_id']])
+        cmd.append(os.path.join(root, path, name))
+        try:
+            output = check_output(cmd).decode('utf8').strip()
+        except Exception as e:
+            reply = dict(
+                status='failed',
+                message=str(e)
+            )
+        else:
+            reply = dict(
+                status='ok',
+                gist_id = output.replace('https://gist.github.com/', '')
+            )
+        self.comm.send(reply)
+
 def gist(line=''):
-    display_javascript("IPython.ext_gist_notebook()", raw=True)
+    display_javascript("IPython.gist_button.publish_gist()", raw=True)
 
 def load_ipython_extension(ip):
-    display_javascript(gist_js, raw=True)
+    install_nbextension(ip)
     ip.magics_manager.register_function(gist)
-    
+    comms = getattr(ip, 'comm_manager', None)
+    if comms:
+        comms.register_target('gist', GistExtension)
     
