@@ -6,7 +6,7 @@ You can install each extension individually, or you can just clone the whole rep
 
 Add a gist button to the notebook toolbar:
 
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/gist.py
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/gist.py
     %load_ext gist
 
 This one requires the [gist](https://github.com/defunkt/gist) rubygem.
@@ -17,7 +17,7 @@ Enable 2x display of matplotlib figures
 
 install the extension:
 
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/retina.py
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/retina.py
 
 load the extension:
 
@@ -30,7 +30,7 @@ Autoresize and scroll capabilities.
 
 install the extension:
 
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/nbtoc.py
+    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/nbtoc.py
 
 load the extension:
 

@@ -18,7 +18,7 @@ from IPython.display import display_javascript
 load_js = """
 // load the gist extension
 
-require(["nbextensions/gist"], function (gist_extension) {
+require(["nbextensions/gistcomm"], function (gist_extension) {
     console.log('gist extension loaded');
     gist_extension.load_extension();
 });
@@ -27,16 +27,16 @@ require(["nbextensions/gist"], function (gist_extension) {
 def install_nbextension(ip):
     """install the gist javascript extension, and load it in custom.js"""
     
-    gist_js = os.path.join(ip.ipython_dir, 'nbextensions', 'gist.js')
-    url = "http://rawgithub.com/minrk/ipython_extensions/master/gist.js"
+    gist_js = os.path.join(ip.ipython_dir, 'nbextensions', 'gistcomm.js')
+    url = "http://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gistcomm.js"
     here = os.path.dirname(__file__)
     if not os.path.exists(gist_js):
-        local_gist_js = os.path.join(here, 'gist.js')
+        local_gist_js = os.path.join(here, 'gistcomm.js')
         if os.path.exists(local_gist_js):
-            print ("installing gist.js from %s" % local_gist_js)
+            print ("installing gistcomm.js from %s" % local_gist_js)
             gist_f = open(local_gist_js)
         else:
-            print ("installing gist.js from %s" % url)
+            print ("installing gistcomm.js from %s" % url)
             gist_f = urllib2.urlopen(url)
         with open(gist_js, 'w') as f:
             f.write(gist_f.read())
