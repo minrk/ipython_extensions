@@ -1,5 +1,4 @@
 *.py[co]
-
 # Packages
 *.egg
 *.egg-info
@@ -15,6 +14,9 @@ develop-eggs
 
 # Installer logs
 pip-log.txt
+
+mathjax
+contrib
 
 # Unit test / coverage reports
 .coverage
