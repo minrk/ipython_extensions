@@ -6,10 +6,17 @@ You can install each extension individually, or you can just clone the whole rep
 
 Add a gist button to the notebook toolbar:
 
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/gist.py
-    %load_ext gist
+    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js > $(ipython locate)/nbextensions/gist.js
 
-This one requires the [gist](https://github.com/defunkt/gist) rubygem.
+and load it by adding to your custom.js, found in `$(ipython locate profile)/static/custom/custom.js`:
+
+```javascript
+require(["nbextensions/gist"], function (gist_extension) {
+    console.log('gist extension loaded');
+    gist_extension.load_extension();
+});
+```
+
 
 ## Retina Figures
 
