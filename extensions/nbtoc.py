@@ -33,7 +33,7 @@ def download(fname, redownload=False):
     dest = os.path.join(here, fname)
     if os.path.exists(dest) and not redownload:
         return
-    url = 'https://raw.github.com/minrk/ipython_extensions/master/' + fname
+    url = 'https://raw.github.com/minrk/ipython_extensions/master/extensions/' + fname
     print("Downloading %s to %s" % (url, dest))
     
     filein  = urllib2.urlopen(url)
