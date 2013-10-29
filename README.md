@@ -20,7 +20,7 @@ require(["nbextensions/gist"], function (gist_extension) {
 
 ## Retina Figures
 
-Enable 2x display of matplotlib figures
+Enable 2x display of matplotlib figures (no longer necessary on IPython master)
 
 install the extension:
 
@@ -32,19 +32,19 @@ load the extension:
 
 ## Table of Contents 
 
-Automatically generates floating table of contents inside your ipnb from the headers.
-Autoresize and scroll capabilities.
+Generates floating table of contents inside your notebook from the heading cells.
+Adds a button to the toolbar to toggle the floating table of contents.
 
 install the extension:
 
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/nbtoc.py
+    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js > $(ipython locate)/nbextensions/toc.js
+    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(ipython locate)/nbextensions/toc.css
 
-load the extension:
+and load it with this in your custom.js:
 
-    %load_ext nbtoc
-    %nbtoc
-
-run `%nbtoc` once more to refresh the Table-of-contents
-
-
-    
+```javascript
+require(["nbextensions/toc"], function (toc) {
+    console.log('Table of Contents extension loaded');
+    toc.load_extension();
+});
+```
