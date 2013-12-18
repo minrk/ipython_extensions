@@ -10,7 +10,7 @@ require(["nbextensions/gist"], function (gist_extension) {
 */
 define( function () {
     
-    var token_cookie_name = "gist_github_token";
+    var token_name = "gist_github_token";
     
     // dialog to request GitHub OAuth token
     // I'm not sure it's possible to step through OAuth purely client side,
@@ -34,7 +34,7 @@ define( function () {
                     class: "btn-primary",
                     click: function () {
                         var token = $(this).find('input').val();
-                        set_cookie(token_cookie_name, token);
+                        localStorage[token_name] = token;
                         gist_notebook();
                     }
                 }
@@ -54,32 +54,12 @@ define( function () {
     };
     // get the GitHub token, via cookie or 
     var get_github_token = function () {
-        var token = get_cookie(token_cookie_name);
+        var token = localStorage[token_name];
         if (!token) {
             token_dialog();
             return null;
         }
         return token;
-    };
-
-    // cookie utils from http://www.elated.com/articles/javascript-and-cookies/
-
-    var set_cookie = function (name, value) {
-        document.cookie = name + "=" + escape(value);
-    };
-
-    var get_cookie = function (name) {
-        var results = document.cookie.match( '(^|;) ?' + name + '=([^;]*)(;|$)' );
-
-        if (results) {
-            return unescape(results[2]);
-        } else {
-            return null;
-        }
-    };
-
-    var delete_cookie = function (name) {
-        document.cookie = name += "=; expires=" + new Date(0).toGMTString();
     };
 
     var gist_notebook = function () {
@@ -121,7 +101,7 @@ define( function () {
                 if (jqXHR.status == 403) {
                     // authentication failed,
                     // delete the cookie so that we prompt again next time
-                    delete_cookie(token_cookie_name);
+                    delete localStorage[token_name];
                 }
                 alert("Uploading gist failed: " + err);
             }
