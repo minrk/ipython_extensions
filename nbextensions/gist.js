@@ -94,7 +94,7 @@ define( function () {
                 console.log("gist succeeded: " + data.id);
                 IPython.notebook.metadata.gist_id = data.id;
                 update_gist_link(data.id);
-                IPython.notification_area.get_notification_widget("notebook").set_message("gist succeeded: " + data.id, 500);
+                IPython.notification_area.get_widget("notebook").set_message("gist succeeded: " + data.id, 500);
             },
             error : function (jqXHR, status, err) {
                 console.log(jqXHR);
