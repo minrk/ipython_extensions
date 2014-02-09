@@ -4,7 +4,7 @@ And load it with:
 
 require(["nbextensions/gist"], function (gist_extension) {
     console.log('gist extension loaded');
-    gist_extension.load_extension();
+    gist_extension.load_ipython_extension();
 });
 
 */
@@ -63,6 +63,7 @@ define( function () {
     };
 
     var gist_notebook = function () {
+        if (!IPython.notebook) return;
         var gist_id = IPython.notebook.metadata.gist_id;
         console.log(gist_id);
         var token = get_github_token();
@@ -110,6 +111,8 @@ define( function () {
     };
     
     var update_gist_link = function(gist_id) {
+        if (!IPython.notebook) return;
+        
         if (!gist_id) {
             gist_id = IPython.notebook.metadata.gist_id;
         } else {
@@ -149,14 +152,14 @@ define( function () {
         update_gist_link();
     };
     
-    var load_extension = function () {
+    var load_ipython_extension = function () {
         gist_button();
         update_gist_link();
         $([IPython.events]).on("notebook_loaded.Notebook", function () {update_gist_link();});
     };
     
     return {
-        load_extension : load_extension,
+        load_ipython_extension : load_ipython_extension,
     };
     
 });
