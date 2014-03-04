@@ -5,7 +5,7 @@ And load it with:
 
 require(["nbextensions/toc"], function (toc) {
 console.log('Table of Contents extension loaded');
-toc.load_extension();
+toc.load_ipython_extension();
 // If you want to load the toc by default, add:
 // $([IPython.events]).on("notebook_loaded.Notebook", toc.table_of_contents);
 });
@@ -148,14 +148,14 @@ define(["require"], function (require) {
     document.getElementsByTagName("head")[0].appendChild(link);
   };
   
-  var load_extension = function () {
+  var load_ipython_extension = function () {
     load_css();
     toc_button();
     // $([IPython.events]).on("notebook_loaded.Notebook", table_of_contents);
   };
 
   return {
-    load_extension : load_extension,
+    load_ipython_extension : load_ipython_extension,
     toggle_toc : toggle_toc,
     table_of_contents : table_of_contents,
     
