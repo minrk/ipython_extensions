@@ -15,10 +15,7 @@ Add a gist button to the notebook toolbar:
 and load it by adding to your custom.js, found in `$(ipython locate profile)/static/custom/custom.js`:
 
 ```javascript
-require(["nbextensions/gist"], function (gist_extension) {
-    console.log('gist extension loaded');
-    gist_extension.load_extension();
-});
+IPython.load_extensions('gist');
 ```
 
 
@@ -47,8 +44,5 @@ install the extension:
 and load it with this in your custom.js:
 
 ```javascript
-require(["nbextensions/toc"], function (toc) {
-    console.log('Table of Contents extension loaded');
-    toc.load_extension();
-});
+IPython.load_extensions('toc');
 ```
