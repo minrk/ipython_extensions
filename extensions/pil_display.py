@@ -20,7 +20,13 @@ def pil2imgdata(img, format='PNG'):
 def array2imgdata_pil(A, format='PNG'):
     """get png data from array via converting to PIL Image"""
     from PIL import Image
-    img = Image.fromstring("L", A.shape[:2], A.tostring())
+    if A.shape[2] == 3:
+        mode = 'RGB'
+    elif A.shape[2] == 4:
+        mode = 'RGBA'
+    else:
+        mode = 'L'
+    img = Image.fromstring(mode, A.shape[:2], A.tostring())
     return pil2imgdata(img, format)
 
 def array2imgdata_fs(A, format='PNG'):
