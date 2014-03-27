@@ -48,7 +48,7 @@ def display_cv_image(cvimg):
     import numpy as np
     return array2imgdata_fs(np.asarray(cvimg))
 
-def register_image_formatters(ip):
+def load_ipython_extension(ip):
     png_formatter = ip.display_formatter.formatters['image/png']
     # both, in case of pillow or true PIL
     png_formatter.for_type_by_name('PIL.Image', 'Image', pil2imgdata)
