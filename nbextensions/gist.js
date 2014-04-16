@@ -43,7 +43,7 @@ define( function () {
                 var that = $(this);
                 // Upon ENTER, click the OK button.
                 that.find('input[type="text"]').keydown(function (event, ui) {
-                    if (event.which === utils.keycodes.ENTER) {
+                    if (event.which === 13) {
                         that.find('.btn-primary').first().click();
                         return false;
                     }
@@ -83,7 +83,6 @@ define( function () {
         var nbj = IPython.notebook.toJSON();
         nbj.nbformat = 3;
         filedata[IPython.notebook.notebook_name] = {content : JSON.stringify(nbj, undefined, 1)};
-        console.log(token);
         var settings = {
             type : method,
             headers : { Authorization: "token " + token },
@@ -98,10 +97,9 @@ define( function () {
                 IPython.notification_area.get_widget("notebook").set_message("gist succeeded: " + data.id, 1500);
             },
             error : function (jqXHR, status, err) {
-                console.log(jqXHR);
-                if (jqXHR.status == 403) {
+                if (true || jqXHR.status == 403) {
                     // authentication failed,
-                    // delete the cookie so that we prompt again next time
+                    // delete the token so that we prompt again next time
                     delete localStorage[token_name];
                 }
                 alert("Uploading gist failed: " + err);
