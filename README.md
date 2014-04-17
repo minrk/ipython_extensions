@@ -10,7 +10,7 @@ into your IPython directories (what I do):
 
 Add a gist button to the notebook toolbar:
 
-    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js > $(ipython locate)/nbextensions/gist.js
+    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js > $(ipython locate)/nbextensions/gist.js
 
 and load it by adding to your custom.js, found in `$(ipython locate profile)/static/custom/custom.js`:
 
@@ -38,8 +38,8 @@ Adds a button to the toolbar to toggle the floating table of contents.
 
 install the extension:
 
-    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js > $(ipython locate)/nbextensions/toc.js
-    $ curl https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(ipython locate)/nbextensions/toc.css
+    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js > $(ipython locate)/nbextensions/toc.js
+    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(ipython locate)/nbextensions/toc.css
 
 and load it with this in your custom.js:
 
