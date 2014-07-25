@@ -46,3 +46,14 @@ and load it with this in your custom.js:
 ```javascript
 IPython.load_extensions('toc');
 ```
+
+## Write and execute
+
+This IPython Notebook magic writes the content of the cell to a specified .py file before executing it.
+An identifier can be used when writing to the file, thus making it possible to overwrite previous iterations of the same code block. 
+The use case for this extension is to export selected code from a Notebook for reuse through a .py file.
+
+To install the extension use:
+    %install_ext https://raw.githubusercontent.com/minrk/ipython_extensions/master/extensions/writeandexecute.py
+Then load it with 
+    %load_ext writeandexecute
