@@ -36,15 +36,16 @@ class WriteAndExecuteMagics(Magics):
         """Writes the content of the cell to a file and then executes the cell.
         
         Usage:
-          %%writeandexecute [-d] -i <indentifier> <filename>
+          %%writeandexecute [-d] -i <identifier> <filename>
           code
           code...
         
         Options:
-        -i <indentifier>: surround the code with a line containing the 
-        indentifier (needed to replace code)
+        -i <identifier>: surrounds the code written to the file with a line 
+        containing the identifier. The use of an identifier enables you to easily
+        overwrite a given code section in the output file.
         
-        <filename>: the file where the code should be written to. Can be 
+        <filename>: the file to which the code should be written. Can be 
         specified without a extension and can also include a directory 
         (`dir/file`)
 
@@ -60,18 +61,18 @@ class WriteAndExecuteMagics(Magics):
 
         Examples
         --------
-        %%writeandexecute -i <identifier> <filename>
+        %%writeandexecute -i my_code_block functions.py
         print "Hello world"
 
-        This would create a file "filename.py" with the following content
+        This would create a file "functions.py" with the following content
         ```
         # -*- coding: utf-8 -*-
 
 
-        # -- ==import_time== --
+        # -- ==my_code_block== --
         print "Hello world"
 
-        # -- ==import_time== --
+        # -- ==my_code_block== --
         ```
 
         Cell content is transformed, so %%magic commands are executed, but 
