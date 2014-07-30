@@ -61,18 +61,18 @@ class WriteAndExecuteMagics(Magics):
 
         Examples
         --------
-        %%writeandexecute -i import_time filename.py
+        %%writeandexecute -i my_code_block functions.py
         print "Hello world"
 
-        This would create a file "filename.py" with the following content
+        This would create a file "functions.py" with the following content
         ```
         # -*- coding: utf-8 -*-
 
 
-        # -- ==import_time== --
+        # -- ==my_code_block== --
         print "Hello world"
 
-        # -- ==import_time== --
+        # -- ==my_code_block== --
         ```
 
         Cell content is transformed, so %%magic commands are executed, but 
