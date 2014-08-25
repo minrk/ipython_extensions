@@ -17,7 +17,11 @@ https://gist.github.com/magican/5574556
 
 import io
 import os
-import urllib2
+try:
+    from urllib2 import urlopen
+except:
+    from urllib.request import urlopen
+    
 
 from IPython.display import display_html, display_javascript
 
@@ -36,7 +40,7 @@ def download(fname, redownload=False):
     url = 'https://raw.github.com/minrk/ipython_extensions/master/extensions/' + fname
     print("Downloading %s to %s" % (url, dest))
     
-    filein  = urllib2.urlopen(url)
+    filein  = urlopen(url)
     fileout = open(dest, "wb")
     chunk = filein.read(1024)
     while chunk:
