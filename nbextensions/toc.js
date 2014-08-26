@@ -131,7 +131,7 @@ define(["require"], function (require) {
       IPython.toolbar.add_buttons_group([
         {
           'label'   : 'Table of Contents',
-          'icon'    : 'icon-list',
+          'icon'    : 'fa-list',
           'callback': toggle_toc,
           'id'      : 'toc_button'
         },
