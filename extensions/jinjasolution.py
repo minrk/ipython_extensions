@@ -47,7 +47,6 @@ class SolutionInputTransformer(InputTransformer):
 
 def load_ipython_extension(ip):
     """register the transformer as the first physical line transform."""
-    ip.input_transformer_manager.physical_line_transforms.insert(
-        0,
+    ip.input_transformer_manager.python_line_transforms.append(
         SolutionInputTransformer()
     )
