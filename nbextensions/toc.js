@@ -14,20 +14,17 @@ toc.load_ipython_extension();
 
 // adapted from https://gist.github.com/magican/5574556
 
-define(["require"], function (require) {
+define(["require", "jquery", "base/js/namespace"], function (require, $, IPython) {
   "use strict";
 
-  var clone_anchor = function (element) {
-    // clone link
-    var h = element.find("div.text_cell_render").find(':header').first();
-    var a = h.find('a').clone();
-    var new_a = $("<a>");
-    new_a.attr("href", a.attr("href"));
+  var make_link = function (h) {
+    var a = $("<a/>");
+    a.attr("href", '#' + h.attr('id'));
     // get the text *excluding* the link text, whatever it may be
     var hclone = h.clone();
     hclone.children().remove();
-    new_a.text(hclone.text());
-    return new_a;
+    a.text(hclone.text());
+    return a;
   };
 
   var ol_depth = function (element) {
@@ -47,7 +44,6 @@ define(["require"], function (require) {
       .addClass("header")
       .text("Contents ")
       .click( function(){
-        console.log(this);
         $('#toc').slideToggle();
         $('#toc-wrapper').toggleClass('closed');
         if ($('#toc-wrapper').hasClass('closed')){
@@ -72,8 +68,6 @@ define(["require"], function (require) {
     if (threshold === undefined) {
       threshold = 4;
     }
-    var cells = IPython.notebook.get_cells();
-      
     var toc_wrapper = $("#toc-wrapper");
     if (toc_wrapper.length === 0) {
       create_toc_div();
@@ -81,15 +75,14 @@ define(["require"], function (require) {
   
     var ol = $("<ol/>");
     $("#toc").empty().append(ol);
-  
-    for (var i=0; i < cells.length; i++) {
-      var cell = cells[i];
     
-      if (cell.cell_type !== 'heading') continue;
-    
-      var level = cell.level;
-      if (level > threshold) continue;
-    
+    $("#notebook").find(":header").map(function (i, h) {
+      var level = parseInt(h.tagName.slice(1), 10);
+      // skip below threshold
+      if (level > threshold) return;
+      // skip headings with no ID to link to
+      if (!h.id) return;
+      
       var depth = ol_depth(ol);
 
       // walk down levels
@@ -104,9 +97,9 @@ define(["require"], function (require) {
       }
       //
       ol.append(
-        $("<li/>").append(clone_anchor(cell.element))
+        $("<li/>").append(make_link($(h)))
       );
-    }
+    });
 
     $(window).resize(function(){
       $('#toc').css({maxHeight: $(window).height() - 200});
@@ -144,7 +137,6 @@ define(["require"], function (require) {
     link.type = "text/css";
     link.rel = "stylesheet";
     link.href = require.toUrl("./toc.css");
-    console.log(link);
     document.getElementsByTagName("head")[0].appendChild(link);
   };
   
