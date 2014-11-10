@@ -1,5 +1,7 @@
 # Miscellaneous IPython extensions
 
+These extensions target IPython master, so may not always work on the latest stable release of IPython.
+
 You can install each extension individually, or you can link the extension directories
 into your IPython directories (what I do):
 
