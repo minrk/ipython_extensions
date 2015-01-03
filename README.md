@@ -2,11 +2,15 @@
 
 These extensions target IPython master, so may not always work on the latest stable release of IPython.
 
-You can install each extension individually, or you can link the extension directories
-into your IPython directories (what I do):
+You can install each extension individually, via copy, download, or symlink (below):
 
     ln -s $(pwd)/extensions/* $(ipython locate)/extensions
     ln -s $(pwd)/nbextensions/* $(ipython locate)/nbextensions
+
+or you can link the extension directories into your IPython directories (what I do):
+
+    ln -s $(pwd)/extensions $(ipython locate)/extensions
+    ln -s $(pwd)/nbextensions $(ipython locate)/nbextensions
 
 ## Gist
 
