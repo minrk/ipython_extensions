@@ -21,7 +21,9 @@ Add a gist button to the notebook toolbar:
 and load it by adding to your custom.js, found in `$(ipython locate profile)/static/custom/custom.js`:
 
 ```javascript
-IPython.load_extensions('gist');
+$([IPython.events]).on("app_initialized.NotebookApp", function () {
+    IPython.load_extensions("gist");
+});
 ```
 
 
@@ -50,7 +52,9 @@ install the extension:
 and load it with this in your custom.js:
 
 ```javascript
-IPython.load_extensions('toc');
+$([IPython.events]).on("app_initialized.NotebookApp", function () {
+    IPython.load_extensions("toc");
+});
 ```
 
 ## Write and execute
