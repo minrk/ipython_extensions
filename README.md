@@ -27,17 +27,6 @@ $([IPython.events]).on("app_initialized.NotebookApp", function () {
 ```
 
 
-## Retina Figures
-
-Enable 2x display of matplotlib figures (no longer necessary on IPython master)
-
-install the extension:
-
-    %install_ext https://rawgithub.com/minrk/ipython_extensions/master/extensions/retina.py
-
-load the extension:
-
-    %load_ext retina
 
 ## Table of Contents 
 
