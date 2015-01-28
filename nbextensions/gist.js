@@ -81,7 +81,6 @@ define( function () {
         }
         var filedata = {};
         var nbj = IPython.notebook.toJSON();
-        nbj.nbformat = 3;
         filedata[IPython.notebook.notebook_name] = {content : JSON.stringify(nbj, undefined, 1)};
         var settings = {
             type : method,
