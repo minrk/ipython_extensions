@@ -1,7 +1,9 @@
 /*extracted from https://gist.github.com/magican/5574556*/
+
 #toc {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 300px;
+  padding: 0px;
 
   ol.nested {
     counter-reset: item;
@@ -19,7 +21,7 @@
 #toc-wrapper {
   position: fixed;
   top: 120px;
-  max-width:430px;
+  max-width:230px;
   right: 20px;
   border: thin solid rgba(0, 0, 0, 0.38);
   border-radius: 5px;
@@ -46,3 +48,17 @@
   font-family: monospace;
 }
 
+#toc-wrapper .reload-btn {
+  font-size: 14px;
+  font-family: monospace;
+}
+
+
+/* don't waste so much screen space... */
+#toc-wrapper .toc-item{
+  padding-left: 20px;
+}
+
+#toc-wrapper .toc-item .toc-item{
+  padding-left: 10px;
+}

@@ -89,6 +89,7 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     }
   
     var ol = $("<ol/>");
+    ol.addClass("toc-item");
     $("#toc").empty().append(ol);
     
     $("#notebook").find(":header").map(function (i, h) {
@@ -103,6 +104,7 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
       // walk down levels
       for (; depth < level; depth++) {
         var new_ol = $("<ol/>");
+        new_ol.addClass("toc-item");
         ol.append(new_ol);
         ol = new_ol;
       }
