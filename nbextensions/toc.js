@@ -47,16 +47,31 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
         $('#toc').slideToggle();
         $('#toc-wrapper').toggleClass('closed');
         if ($('#toc-wrapper').hasClass('closed')){
-          $('#toc-wrapper .hide-btn').text('[+]');
+          $('#toc-wrapper .hide-btn')
+          .text('[+]')
+          .attr('title', 'Show ToC');
         } else {
-          $('#toc-wrapper .hide-btn').text('[-]');
+          $('#toc-wrapper .hide-btn')
+          .text('[-]')
+          .attr('title', 'Hide ToC');
         }
         return false;
       }).append(
         $("<a/>")
         .attr("href", "#")
         .addClass("hide-btn")
+        .attr('title', 'Hide ToC')
         .text("[-]")
+      ).append(
+        $("<a/>")
+        .attr("href", "#")
+        .addClass("reload-btn")
+        .text("  \u21BB")
+        .attr('title', 'Reload ToC')
+        .click( function(){
+          table_of_contents();
+          return false;
+        })
       )
     ).append(
         $("<div/>").attr("id", "toc")
