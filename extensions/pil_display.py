@@ -26,7 +26,7 @@ def array2imgdata_pil(A, format='PNG'):
         mode = 'RGBA'
     else:
         mode = 'L'
-    img = Image.fromstring(mode, A.shape[:2], A.tostring())
+    img = Image.frombytes(mode, A.shape[:2][::-1], A.tostring())
     return pil2imgdata(img, format)
 
 def array2imgdata_fs(A, format='PNG'):
