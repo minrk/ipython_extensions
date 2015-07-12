@@ -47,7 +47,10 @@ def display_image_array(a):
     import numpy as np
     if len(a.shape) != 3 or a.shape[2] not in {3,4} or a.dtype != np.uint8:
         return
-    return array2imgdata_pil(a)
+    md = {
+        'width': a.shape[1] // 2
+    }
+    return (array2imgdata_pil(a), md)
 
 def display_cv_image(cvimg):
     """display an OpenCV cvmat object as an image"""
