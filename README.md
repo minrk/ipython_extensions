@@ -53,6 +53,8 @@ An identifier can be used when writing to the file, thus making it possible to o
 The use case for this extension is to export selected code from a Notebook for reuse through a .py file.
 
 To install the extension use:
+
     %install_ext https://raw.githubusercontent.com/minrk/ipython_extensions/master/extensions/writeandexecute.py
 Then load it with 
+
     %load_ext writeandexecute
