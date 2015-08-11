@@ -161,6 +161,7 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     load_css();
     toc_button();
     // $([IPython.events]).on("notebook_loaded.Notebook", table_of_contents);
+    $([IPython.events]).on("notebook_saved.Notebook", table_of_contents);
   };
 
   return {
