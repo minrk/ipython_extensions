@@ -1,17 +1,3 @@
-/*
-Add this file and neighboring toc.css to $(ipython locate)/nbextensions/
-
-And load it with:
-
-require(["nbextensions/toc"], function (toc) {
-console.log('Table of Contents extension loaded');
-toc.load_ipython_extension();
-// If you want to load the toc by default, add:
-// $([IPython.events]).on("notebook_loaded.Notebook", toc.table_of_contents);
-});
-
-*/
-
 // adapted from https://gist.github.com/magican/5574556
 
 define(["require", "jquery", "base/js/namespace"], function (require, $, IPython) {
