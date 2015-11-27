@@ -1,4 +1,5 @@
 // adapted from https://gist.github.com/magican/5574556
+// modified to fix TOC nesting (sublists inside <li>)
 
 define(["require", "jquery", "base/js/namespace"], function (require, $, IPython) {
   "use strict";
@@ -13,16 +14,6 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     return a;
   };
 
-  var ol_depth = function (element) {
-    // get depth of nested ol
-    var d = 0;
-    while (element.prop("tagName").toLowerCase() == 'ol') {
-      d += 1;
-      element = element.parent();
-    }
-    return d;
-  };
-  
   var create_toc_div = function () {
     var toc_wrapper = $('<div id="toc-wrapper"/>')
     .append(
@@ -77,31 +68,32 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     var ol = $("<ol/>");
     ol.addClass("toc-item");
     $("#toc").empty().append(ol);
+    var depth = 1;
+    var li;
     
-    $("#notebook").find(":header").map(function (i, h) {
+    $("#notebook").find(":header").map(function(i, h) {
       var level = parseInt(h.tagName.slice(1), 10);
       // skip below threshold
       if (level > threshold) return;
       // skip headings with no ID to link to
       if (!h.id) return;
-      
-      var depth = ol_depth(ol);
+      //alert( level + ':' + h.id );
 
       // walk down levels
       for (; depth < level; depth++) {
         var new_ol = $("<ol/>");
         new_ol.addClass("toc-item");
-        ol.append(new_ol);
+        li.append(new_ol);
         ol = new_ol;
       }
       // walk up levels
       for (; depth > level; depth--) {
-        ol = ol.parent();
+	// up twice: the enclosing <ol> and the <li> it was  inserted in
+        ol = ol.parent().parent();
       }
       //
-      ol.append(
-        $("<li/>").append(make_link($(h)))
-      );
+      li = $("<li/>").append( make_link($(h)) );
+      ol.append( li );
     });
 
     $(window).resize(function(){

@@ -1,21 +1,27 @@
-/*extracted from https://gist.github.com/magican/5574556*/
+/* extracted from https://gist.github.com/magican/5574556
+   slightly modified for the selectors of toc-items */
 
 #toc {
   overflow-y: auto;
   max-height: 300px;
   padding: 0px;
+}
 
-  ol.nested {
+#toc ol.toc-item {
     counter-reset: item;
     list-style: none;
-  }
-  li.nested {
+    padding: 0.1em;
+}
+
+#toc ol.toc-item  li {
     display: block;
-  }
-  li.nested:before {
+}
+
+#toc ol.toc-item li:before {
+    font-size: 90%;
+    font-family: Georgia, Times New Roman, Times, serif;
     counter-increment: item;
     content: counters(item, ".")" ";
-  }
 }
 
 #toc-wrapper {
