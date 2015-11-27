@@ -53,6 +53,7 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
     ).append(
         $("<div/>").attr("id", "toc")
     );
+    toc_wrapper.hide();
     $("body").append(toc_wrapper);
   };
 
@@ -138,6 +139,7 @@ define(["require", "jquery", "base/js/namespace"], function (require, $, IPython
   var load_ipython_extension = function () {
     load_css();
     toc_button();
+    table_of_contents();
     // $([IPython.events]).on("notebook_loaded.Notebook", table_of_contents);
     $([IPython.events]).on("notebook_saved.Notebook", table_of_contents);
   };
