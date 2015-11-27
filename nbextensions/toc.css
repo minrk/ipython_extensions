@@ -18,8 +18,6 @@
 }
 
 #toc ol.toc-item li:before {
-    font-size: 90%;
-    font-family: Georgia, Times New Roman, Times, serif;
     counter-increment: item;
     content: counters(item, ".")" ";
 }
