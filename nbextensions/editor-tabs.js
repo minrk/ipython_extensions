@@ -33,6 +33,7 @@ define( function () {
     if (!current) {
       entry.find(".fa-check").hide();
     }
+    $("#edit-menu").append($("<li>").addClass('divider'));
     $("#edit-menu").append(entry);
   }
 
