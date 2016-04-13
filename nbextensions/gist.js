@@ -27,6 +27,7 @@ define( function () {
         );
         IPython.dialog.modal({
             title: "GitHub OAuth",
+            keyboard_manager: IPython.notebook.keyboard_manager,
             body: dialog,
             buttons : {
                 "Cancel": {},
