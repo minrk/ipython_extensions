@@ -13,9 +13,8 @@ def load_ipython_extension(ip):
     if not hasattr(ip, 'kernel'):
         # not in a kernel, nothing to do
         return
-    _save_page = page
-    page.page = print
+    ip.set_hook('show_in_pager', page.as_hook(page.display_page), 90)
 
 def unload_ipython_extension(ip):
-    if _save_page is not None:
-        page.page = _save_page
+    if hasattr(ip, 'display_page'):
+        ip.display_page = _save_page
