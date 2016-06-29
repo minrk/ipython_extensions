@@ -26,6 +26,7 @@ define([], function () {
   
   function handle_cell_above(cell, idx) {
     // a cell below this one has requested execution
+    if (cell.cell_type != 'code_cell') return;
     if (cell.element.hasClass('inorder-error')) {
       // return true means we should prevent future execution
       return true;
@@ -36,6 +37,8 @@ define([], function () {
   function handle_cell_below(cell, idx) {
     // a cell above this one has been executed
     // clear its output
+    if (cell.cell_type != 'code_cell') return;
+    
     unlock_cell(cell);
     cell.element.removeClass('inorder-executed');
     cell.clear_output();
@@ -43,6 +46,7 @@ define([], function () {
   
   function unlock_cell(cell) {
     // unlock a given cell
+    if (cell.cell_type != 'code_cell') return;
     cell.element.removeClass('inorder-locked');
     cell.element.removeClass('inorder-error');
     cell.clear_output();
@@ -50,6 +54,7 @@ define([], function () {
   
   function lock_cell(cell) {
     // lock a cell.
+    if (cell.cell_type != 'code_cell') return;
     // on edit, unlock cell and invalidate cells below
     cell.element.addClass('inorder-locked');
     cell.code_mirror.on("change", function () {
