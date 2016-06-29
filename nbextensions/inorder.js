@@ -46,20 +46,19 @@ define([], function () {
 
   function handle_cell_creation(evt, data) {
     // the cell below the created one should be invalidated
-	var idx = data.index;
-	var cell = data.cell;
+    var idx = data.index;
+    var cell = data.cell;
     var nb = Jupyter.notebook;
     var cells = Jupyter.notebook.get_cells();
-	console.log("cell creation at", idx);
     var ncells = nb.ncells();
 
     if (idx+1 == ncells) return;
 
-    if (cells[idx+1].element.hasClass('inorder-locked'))
-	{
-	  cell.element.addClass('inorder-executed');
+    if (cells[idx+1].element.hasClass('inorder-executed'))
+    {
+      cell.element.addClass('inorder-executed');
       invalidate_below(idx);
-	}
+    }
   }
   
   function unlock_cell(cell) {
