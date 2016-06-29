@@ -26,7 +26,7 @@ define([], function () {
   
   function handle_cell_above(cell, idx) {
     // a cell below this one has requested execution
-    if (cell.cell_type != 'code_cell') return;
+    if (cell.cell_type != 'code') return;
     if (cell.element.hasClass('inorder-error')) {
       // return true means we should prevent future execution
       return true;
@@ -37,7 +37,7 @@ define([], function () {
   function handle_cell_below(cell, idx) {
     // a cell above this one has been executed
     // clear its output
-    if (cell.cell_type != 'code_cell') return;
+    if (cell.cell_type != 'code') return;
     
     unlock_cell(cell);
     cell.element.removeClass('inorder-executed');
@@ -46,7 +46,7 @@ define([], function () {
   
   function unlock_cell(cell) {
     // unlock a given cell
-    if (cell.cell_type != 'code_cell') return;
+    if (cell.cell_type != 'code') return;
     cell.element.removeClass('inorder-locked');
     cell.element.removeClass('inorder-error');
     cell.clear_output();
@@ -54,7 +54,7 @@ define([], function () {
   
   function lock_cell(cell) {
     // lock a cell.
-    if (cell.cell_type != 'code_cell') return;
+    if (cell.cell_type != 'code') return;
     // on edit, unlock cell and invalidate cells below
     cell.element.addClass('inorder-locked');
     cell.code_mirror.on("change", function () {
@@ -194,8 +194,8 @@ define([], function () {
     var style = document.createElement("style");
     style.type = "text/css";
     style.innerHTML = 
-      "div.cell.inorder-locked { background-color: #afa !important}\n" +
-      "div.cell.inorder-locked.inorder-error { background-color: #faa !important}\n"
+      "div.cell.code_cell.inorder-locked { background-color: #afa}\n" +
+      "div.cell.code_cell.inorder-locked.inorder-error { background-color: #faa}\n"
     ;
     document.getElementsByTagName("head")[0].appendChild(style);
   
