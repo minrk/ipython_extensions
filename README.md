@@ -1,6 +1,7 @@
-# Miscellaneous IPython extensions
+# Miscellaneous IPython and Jupyter extensions
 
-These extensions target IPython master, so may not always work on the latest stable release of IPython.
+These extensions typically target master of IPython and/or Jupyter,
+so may not always work on the latest stable releases.
 
 You can install each extension individually, via copy, download, or symlink (below):
 
@@ -16,15 +17,8 @@ or you can link the extension directories into your IPython directories (what I 
 
 Add a gist button to the notebook toolbar:
 
-    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js > $(ipython locate)/nbextensions/gist.js
-
-and load it by adding to your custom.js, found in `$(ipython locate profile)/static/custom/custom.js`:
-
-```javascript
-$([IPython.events]).on("app_initialized.NotebookApp", function () {
-    IPython.load_extensions("gist");
-});
-```
+    $ juptyer nbextension install https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js
+    $ jupyter nbextension enable gist
 
 
 
@@ -35,16 +29,10 @@ Adds a button to the toolbar to toggle the floating table of contents.
 
 install the extension:
 
-    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js > $(ipython locate)/nbextensions/toc.js
-    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(ipython locate)/nbextensions/toc.css
+    $ juptyer nbextension install --user https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js
+    $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(jupyter --data-dir)/nbextensions/toc.css
+    $ jupyter nbextension enable toc
 
-and load it with this in your custom.js:
-
-```javascript
-$([IPython.events]).on("app_initialized.NotebookApp", function () {
-    IPython.load_extensions("toc");
-});
-```
 
 ## Write and execute
 
