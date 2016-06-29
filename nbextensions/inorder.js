@@ -43,6 +43,23 @@ define([], function () {
     cell.element.removeClass('inorder-executed');
     cell.clear_output();
   }
+
+  function handle_cell_creation(evt, data) {
+    // the cell below the created one should be invalidated
+    var idx = data.index;
+    var cell = data.cell;
+    var nb = Jupyter.notebook;
+    var cells = Jupyter.notebook.get_cells();
+    var ncells = nb.ncells();
+
+    if (idx+1 == ncells) return;
+
+    if (cells[idx+1].element.hasClass('inorder-executed'))
+    {
+      cell.element.addClass('inorder-executed');
+      invalidate_below(idx);
+    }
+  }
   
   function unlock_cell(cell) {
     // unlock a given cell
@@ -177,6 +194,9 @@ define([], function () {
   
   function load_extension () {
     console.log("Loading inorder extension");
+
+	// when a cell is created we check
+	events.on('create.Cell', handle_cell_creation);
 
     // when there's an error, mark it and invalidate below
     events.on('output_error.InOrderExtension', handle_error);
