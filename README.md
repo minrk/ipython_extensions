@@ -17,7 +17,7 @@ or you can link the extension directories into your IPython directories (what I 
 
 Add a gist button to the notebook toolbar:
 
-    $ juptyer nbextension install https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js
+    $ jupyter nbextension install https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/gist.js
     $ jupyter nbextension enable gist
 
 
@@ -29,7 +29,7 @@ Adds a button to the toolbar to toggle the floating table of contents.
 
 install the extension:
 
-    $ juptyer nbextension install --user https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js
+    $ jupyter nbextension install --user https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.js
     $ curl -L https://rawgithub.com/minrk/ipython_extensions/master/nbextensions/toc.css > $(jupyter --data-dir)/nbextensions/toc.css
     $ jupyter nbextension enable toc
 
