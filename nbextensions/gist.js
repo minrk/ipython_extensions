@@ -132,8 +132,8 @@ define( function () {
             );
         }
     
-        link.attr("href", "http://nbviewer.ipython.org/" + gist_id);
-        link.text("http://nbviewer.ipython.org/" + gist_id);
+        link.attr("href", "https://nbviewer.jupyter.org/" + gist_id);
+        link.text("https://nbviewer.jupyter.org/" + gist_id);
     };
 
     var gist_button = function () {
