@@ -144,7 +144,8 @@ define( function () {
         if ($("#gist_notebook").length === 0) {
             IPython.toolbar.add_buttons_group([
                 {
-                    'label'   : 'Share Notebook as gist',
+                    'label'   : 'gist',
+                    'help'    : 'Share notebook as gist',
                     'icon'    : 'fa-share',
                     'callback': gist_notebook,
                     'id'      : 'gist_notebook'
