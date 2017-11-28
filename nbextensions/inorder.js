@@ -26,12 +26,16 @@ define([], function () {
   
   function handle_cell_above(cell, idx) {
     // a cell below this one has requested execution
-    if (cell.cell_type != 'code') return;
+    if (cell.cell_type != 'code') return Promise.resolve();
     if (cell.element.hasClass('inorder-error')) {
       // return true means we should prevent future execution
-      return true;
+      return Promise.resolve(true);
     }
-    cell.execute();
+    f = cell.execute();
+    if (typeof f === 'undefined') {
+      f = Promise.resolve();
+    }
+    return f;
   }
 
   function handle_cell_below(cell, idx) {
@@ -103,36 +107,72 @@ define([], function () {
       return;
     }
     
-    // check if cell below has been executed
+    // check if cell has been executed
     // if so, restart the kernel and run to here.
     if (cell.element.hasClass('inorder-executed')) {
       cells.map(unlock_cell);
       console.log("Restarting kernel to restore consistent state.");
-      nb.kernel.restart(function () {
-        for (var i = 0; i <= idx; i++) {
-          nb.execute_cells([i]);
+      function reexecute(i) {
+        // chain re-execute promises
+        console.log('reexecuting', i);
+        var promise = nb.get_cell(i).execute();
+        if (i < idx) {
+          promise = promise.then(function () {
+            return reexecute(i + 1);
+          })
         }
+        return promise;
+      }
+      var resolve_promise, reject_promise;
+      var promise = new Promise(function (resolve, reject){
+        resolve_promise = resolve;
+        reject_promise = reject;
       });
-      return;
+
+      nb.kernel.restart(resolve_promise, reject_promise);
+      return promise.then(function () {
+        return reexecute(0);
+      })
     }
     
     // check cells above for
     // - errors
     // - execution
-    for (var i = 0; i < idx; i++) {
-      if (handle_cell_above(cells[i], i)) {
-        // we noticed an error, so stop before we execute this cell
+    function chain_above(i) {
+      return handle_cell_above(cells[i], i)
+      .then(function (previous) {
+        if (previous === true) {
+          // true means error, so stop here
+          return previous;
+        } else {
+          if (i + 1 < idx) {
+            return chain_above(i + 1);
+          }
+        }
+      });
+    }
+    return Promise.resolve()
+    .then(function () {
+      if (idx === 0) return;
+      return chain_above(0);
+    })
+    .then(function (was_error) {
+      if (was_error) return;
+      if (cell.element.hasClass('inorder-locked')) {
+        // locked means it's valid, don't re-execute
+        // check again because this could be delayed
+        // from initial check
         return;
       }
-    }
-    
-    // actually lock and run this cell
-    cell.element.addClass('inorder-executed');
-    lock_cell(cell);
-    var f = this.original_execute();
-    // invalidate cells after this one, now that we have been execute
-    invalidate_below(idx);
-    return f; // incase original execute returns a promise
+
+      // actually lock and run this cell
+      cell.element.addClass('inorder-executed');
+      lock_cell(cell);
+      var f = cell.original_execute();
+      // invalidate cells after this one, now that we have been executed
+      invalidate_below(idx);
+      return f; // in case original execute returns a promise
+    });
   }
   
   function cell_for_output_area(output_area) {
